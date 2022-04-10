@@ -5,6 +5,9 @@ from django.db import models
 class Collection(models.Model):
     title = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.title
+
 
 class Product(models.Model):
     INVENTORY_STATUS_STOCK = "S"
@@ -17,7 +20,8 @@ class Product(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
     unit_price = models.DecimalField(max_digits=6, decimal_places=2)  # 9999.99
-    rate = models.DecimalField(max_digits=3, decimal_places=2)  # 4.53
+    rate = models.DecimalField(
+        max_digits=3, decimal_places=2, null=True, blank=True)  # 4.53
     inventory = models.PositiveIntegerField()
     inventory_status = models.CharField(
         max_length=1, choices=INVENTORY_STATUS_CHOICES)
