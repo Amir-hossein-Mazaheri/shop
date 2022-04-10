@@ -9,6 +9,8 @@ psycopg2 = "*"
 djangorestframework = "*"
 djoser = "*"
 djangorestframework-simplejwt = "*"
+drf-nested-routers = "*"
+django-debug-toolbar = "*"
 
 [dev-packages]
 autopep8 = "*"
