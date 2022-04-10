@@ -49,7 +49,7 @@ class Customer(models.Model):
     MEMBERSHIP_CHOICES_NORMAL = 'N'
     MEMBERSHIP_CHOICES_PREMIUM = 'P'
     MEMBERSHIP_CHOICES = [
-        (MEMBERSHIP_CHOICES_PREMIUM, 'Premium')
+        (MEMBERSHIP_CHOICES_PREMIUM, 'Premium'),
         (MEMBERSHIP_CHOICES_NORMAL, 'Normal')
     ]
 
@@ -58,7 +58,8 @@ class Customer(models.Model):
     email = models.EmailField()
     phone = models.CharField(max_length=255)
     address = models.TextField()
-    membership = models.CharField(max_length=1, choices=MEMBERSHIP_CHOICES)
+    membership = models.CharField(
+        max_length=1, choices=MEMBERSHIP_CHOICES, default='N')
     user = models.OneToOneField(settings.AUTH_USER_MODEL,
                                 on_delete=models.CASCADE)
 
