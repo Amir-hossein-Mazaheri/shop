@@ -32,12 +32,10 @@ class CartItemViewSet(ModelViewSet):
 
     def get_serializer_class(self):
         method = self.request.method
-
         if method == 'GET':
             return CartItemSerializer
         elif method == 'PATCH':
             return UpdateCartItemSerializer
-
         return CreateCartItemSerializer
 
     def get_serializer_context(self):
@@ -49,8 +47,6 @@ class OrderViewSet(ModelViewSet):
 
     def get_serializer_class(self):
         method = self.request.method
-
         if method == 'GET':
             return OrderSerializer
-
         return CreateOrderSerializer
