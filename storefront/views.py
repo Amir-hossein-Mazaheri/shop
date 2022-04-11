@@ -50,3 +50,6 @@ class OrderViewSet(ModelViewSet):
         if method == 'GET':
             return OrderSerializer
         return CreateOrderSerializer
+
+    def get_serializer_context(self):
+        return {**super().get_serializer_context(), 'user_id': self.request.user.id}
