@@ -1,6 +1,7 @@
+from django.db import transaction
 from rest_framework import serializers
 
-from .models import Cart, CartItem, Order, Product, Collection
+from .models import Cart, CartItem, Order, OrderItem, Product, Collection
 
 
 class SimpleCollectionSerializer(serializers.ModelSerializer):
@@ -111,7 +112,38 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = ['id', 'payment_status', 'placed_at', 'customer']
 
 
-class CreateOrderSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Order
-        fields = ['customer']
+class CreateOrderSerializer(serializers.Serializer):
+    cart_id = serializers.UUIDField()
+
+    def validate(self, attrs):
+        cart_id = attrs['cart_id']
+        if not Cart.objects.filter(pk=cart_id).exists():
+            raise serializers.ValidationError('No cart found with given id')
+        elif CartItem.objects.filter(cart_id=cart_id).count() == 0:
+            raise serializers.ValidationError('Cart is empty')
+        return attrs
+
+    def create(self, validated_data):
+        with transaction.atomic():
+            cart_id = validated_data['cart_id']
+            cart_items = CartItem.objects.filter(cart_id=cart_id)
+            customer = self.context['user_id']
+            order = Order.objects.create(
+                customer=customer)  # 1. create a order
+
+            order_items = [
+                OrderItem(
+                    unit_price=item.unit_price,
+                    quantity=item.quantity,
+                    product=item.product,
+                    order=order,
+                )
+                for item in cart_items
+            ]
+
+            # 2. create order items for order
+            OrderItem.objects.bulk_create(order_items)
+
+            Cart.objects.filter(pk=cart_id).delete()  # 3. delete cart
+
+            return order
