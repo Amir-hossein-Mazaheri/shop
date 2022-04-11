@@ -32,6 +32,13 @@ class Product(models.Model):
         return self.title
 
 
+class Comment(models.Model):
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+
 class Cart(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4)
 
@@ -79,3 +86,12 @@ class Order(models.Model):
     placed_at = models.DateTimeField(auto_now_add=True)
     customer = models.ForeignKey(
         Customer, on_delete=models.CASCADE, related_name='orders')
+
+
+class OrderItem(models.Model):
+    unit_price = models.DecimalField(max_digits=6, decimal_places=2)
+    quantity = models.PositiveIntegerField()
+    product = models.ForeignKey(
+        Product, on_delete=models.PROTECT, related_name='order_items')
+    order = models.ForeignKey(
+        Order, on_delete=models.CASCADE, related_name='order_items')
