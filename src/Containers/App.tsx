@@ -9,16 +9,15 @@ const HomePage = lazy(() => import("../Pages"));
 
 const App: React.FC = () => {
   return (
-    // <MainLayout>
-    //   <Suspense fallback={<Loading />}>
-    //     <BrowserRouter>
-    //       <Routes>
-    //         <Route index element={<HomePage />} />
-    //       </Routes>
-    //     </BrowserRouter>
-    //   </Suspense>
-    // </MainLayout>
-    <Loading />
+    <Suspense fallback={<Loading />}>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<MainLayout asRoute />}>
+            <Route index element={<HomePage />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </Suspense>
   );
 };
 
