@@ -1,36 +1,66 @@
 import React from "react";
 
-import { Box, Container } from "@mui/material";
+import { useQuery } from "react-query";
+import { Box, Container, styled } from "@mui/material";
+import { SwiperSlide, Swiper } from "swiper/react";
 import Products from "../Components/Products";
-import { ProductProps } from "../Components/ProductCard";
+import useSlider from "../Hooks/useSlider";
+import { fetchProducts } from "../Api/fetchProducts";
+import Loading from "../Common/Loading";
 
-const products: ProductProps[] = [
-  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
-].map((n) => ({
-  id: n,
-  title: "Some random shit " + Math.floor(Math.random() * n * 100),
-  // language=HTML
-  description:
-    "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad asperiores, corporis eum fuga inventore iste maiores minima unde? A, amet deleniti fugit molestiae necessitatibus nihil quae quia suscipit temporibus vel. Assumenda beatae est et eveniet fugiat illo ipsum labore maxime provident quae, quis sit, sunt tempore ullam veritatis vero voluptas?",
-  unitPrice: 15,
-  inventory: 2,
-  rate: n,
-  inventoryStatus: n % 2 ? "S" : "O",
-  collections: [
-    {
-      id: Math.floor(Math.random() * 100),
-      title: "Headphones",
-    },
-  ],
+const ProductSlide = styled("div")(() => ({
+  height: 450,
+  maxWidth: "100%",
+  position: "relative",
+
+  "& > img": {
+    transform: "rotate(-10)",
+  },
 }));
 
 const HomePage: React.FC = () => {
+  const {
+    isLoading,
+    isError,
+    data: products,
+  } = useQuery("products", fetchProducts);
+
+  const [options] = useSlider({
+    direction: "horizontal",
+    delay: 1800,
+    hasPagination: true,
+    hasNavigation: true,
+  });
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (isError) {
+    return <p>An Error Happened</p>;
+  }
+
   return (
-    <Container maxWidth={"xl"} sx={{ py: 6 }}>
-      <Box>
-        <Products products={products} />
+    <Box sx={{ py: 6 }}>
+      <Box sx={{ width: "100%", minHeight: 400 }}>
+        <Swiper {...options}>
+          <SwiperSlide>
+            <ProductSlide>Something with 1</ProductSlide>
+          </SwiperSlide>
+          <SwiperSlide>
+            <ProductSlide>Something with 2</ProductSlide>
+          </SwiperSlide>
+          <SwiperSlide>
+            <ProductSlide>Something with 3</ProductSlide>
+          </SwiperSlide>
+        </Swiper>
       </Box>
-    </Container>
+      <Container maxWidth={"xl"} sx={{ py: 4 }}>
+        <Box>
+          <Products products={products as any} />
+        </Box>
+      </Container>
+    </Box>
   );
 };
 

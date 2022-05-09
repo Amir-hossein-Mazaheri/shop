@@ -1,4 +1,4 @@
-import { MouseEventHandler } from "react";
+import React from "react";
 
 declare global {
   declare namespace Common {
@@ -21,7 +21,7 @@ declare global {
 
     type color = "error" | "success" | "warning" | "inherit";
     type position = "top-right" | "top-left" | "bottom-right" | "bottom-left";
-    type content = string[] | string | BadgeText[];
+    type content = string[] | string;
   }
 
   declare namespace Navbar {
@@ -29,7 +29,7 @@ declare global {
       id: number | string;
       text: string;
       to: string;
-      action?: MouseEventHandler;
+      action?: React.MouseEventHandler;
     }
   }
 }

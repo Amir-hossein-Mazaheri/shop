@@ -1,4 +1,4 @@
-export default function getColor(color: Badge.color) {
+export default function getColor(color: Badge.color): string {
   const defaultMode = "bg-green-500";
 
   switch (color) {

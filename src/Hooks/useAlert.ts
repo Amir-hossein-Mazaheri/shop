@@ -18,7 +18,7 @@ const useAlert = (
     hasConfirm: false,
   }
 ) => {
-  const Alert = useMemo(
+  return useMemo(
     () =>
       SweetToast.mixin({
         toast: true,
@@ -33,8 +33,6 @@ const useAlert = (
       }),
     [progressBar, timer]
   );
-
-  return Alert;
 };
 
 export default useAlert;

@@ -66,38 +66,53 @@ const ProductCard: React.FC<ProductProps> = ({
 
   return (
     <CompactBadge
-      content={invStatusMessage ? invStatusMessage : ""}
+      content={[invStatusMessage ? invStatusMessage : "", "more test"]}
       position={"bottom-right"}
       color={"error"}
     >
-      <Card className={"shadow shadow-md shadow-gray-600"}>
-        <CardMedia
-          component="img"
-          image={imageURL || "/assets/images/no-picture-product.jpg"}
-          alt={title}
-        />
+      {" "}
+      <CompactBadge
+        content={[invStatusMessage ? invStatusMessage : "", "more test"]}
+        position={"top-left"}
+        color={"error"}
+        reverse={true}
+      >
+        <CompactBadge
+          content={[invStatusMessage ? invStatusMessage : "", "test", "test 2"]}
+          position={"top-right"}
+          color={"success"}
+          reverse={true}
+        >
+          <Card className={"shadow shadow-md shadow-gray-600"}>
+            <CardMedia
+              component="img"
+              image={imageURL || "/assets/images/no-picture-product.jpg"}
+              alt={title}
+            />
 
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="h3">
-            {title}
-          </Typography>
-          <Typography variant="body2" component="p" color="text.secondary">
-            {descriptionSummary}
-          </Typography>
-        </CardContent>
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="h3">
+                {title}
+              </Typography>
+              <Typography variant="body2" component="p" color="text.secondary">
+                {descriptionSummary}
+              </Typography>
+            </CardContent>
 
-        <CardActions>
-          <IconButton
-            onClick={addProductOrIncrement}
-            disabled={isAddedToCart}
-            aria-label="Add to Cart"
-          >
-            <AddShoppingCartIcon />
-          </IconButton>
+            <CardActions>
+              <IconButton
+                onClick={addProductOrIncrement}
+                disabled={isAddedToCart}
+                aria-label="Add to Cart"
+              >
+                <AddShoppingCartIcon />
+              </IconButton>
 
-          <Rating name={"product-rate"} value={rate} readOnly />
-        </CardActions>
-      </Card>
+              <Rating name={"product-rate"} value={rate} readOnly />
+            </CardActions>
+          </Card>
+        </CompactBadge>
+      </CompactBadge>
     </CompactBadge>
   );
 };

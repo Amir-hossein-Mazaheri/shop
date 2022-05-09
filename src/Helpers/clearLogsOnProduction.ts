@@ -1,7 +1,13 @@
 export default function clearLogsOnProduction() {
   if (process.env.NODE_ENV === "production") {
-    console.log = () => {};
-    console.warn = () => {};
-    console.error = () => {};
+    console.log = () => {
+      return;
+    };
+    console.warn = () => {
+      return;
+    };
+    console.error = () => {
+      return;
+    };
   }
 }
