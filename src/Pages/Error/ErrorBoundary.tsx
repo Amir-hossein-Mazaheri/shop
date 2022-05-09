@@ -1,14 +1,14 @@
 import React, { Component, ReactChild } from "react";
 
-interface Props {
+interface ErrorBoundaryProps {
   children: ReactChild;
 }
 
-interface State {
+interface ErrorBoundaryState {
   hasError: boolean;
 }
 
-class ErrorBoundary extends Component<Props, State> {
+class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   state = { hasError: false };
 
   static getDerivedStateFromError(_: Error) {

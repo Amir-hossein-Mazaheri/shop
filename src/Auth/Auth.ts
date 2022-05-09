@@ -83,7 +83,7 @@ class Auth {
 
   /**
    *
-   * @param callback called after loggin out
+   * @param callback called after logging out
    */
   logout(callback?: () => void) {
     localStorage.removeItem("refresh");
